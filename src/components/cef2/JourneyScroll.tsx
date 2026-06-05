@@ -1,19 +1,52 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { CardBrandMark } from "@/components/cef2/CardBrandMark";
-import { curriculum } from "@/lib/content";
+import { JourneyDayModal } from "@/components/cef2/JourneyDayModal";
+import { curriculum, type CurriculumDay } from "@/lib/content";
 import { sectionImages } from "@/lib/images";
 import { SectionBackdrop } from "@/components/cef2/SectionBackdrop";
 import { gsap, ScrollTrigger } from "@/lib/gsap-client";
 import { useGsapReady } from "@/hooks/useGsapReady";
 import { site } from "@/lib/site";
 
+type GenieOrigin = {
+  x: number;
+  y: number;
+};
+
+function JourneyEyeIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinejoin="round"
+      />
+      <circle cx="12" cy="12" r="2.5" stroke="currentColor" strokeWidth="1.75" />
+    </svg>
+  );
+}
+
 export function JourneyScroll() {
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const gsapReady = useGsapReady();
+  const [selectedDay, setSelectedDay] = useState<CurriculumDay | null>(null);
+  const [genieOrigin, setGenieOrigin] = useState<GenieOrigin | null>(null);
+
+  const openDayModal = (day: CurriculumDay, trigger: HTMLButtonElement) => {
+    const rect = trigger.getBoundingClientRect();
+    setGenieOrigin({ x: rect.right, y: rect.bottom });
+    setSelectedDay(day);
+  };
+
+  const closeDayModal = () => {
+    setSelectedDay(null);
+    setGenieOrigin(null);
+  };
 
   useGSAP(
     () => {
@@ -120,6 +153,14 @@ export function JourneyScroll() {
             <p className="relative z-10 mt-4 text-xs text-on-tertiary/70">
               Phase {i + 1} of 5
             </p>
+            <button
+              type="button"
+              className="cef2-journey-eye absolute right-4 bottom-4 z-20"
+              onClick={(event) => openDayModal(day, event.currentTarget)}
+              aria-label={`View Day ${Number.parseInt(day.day, 10)} details`}
+            >
+              <JourneyEyeIcon />
+            </button>
           </article>
         ))}
 
@@ -139,6 +180,10 @@ export function JourneyScroll() {
           </a>
         </article>
       </div>
+
+      {selectedDay && genieOrigin && (
+        <JourneyDayModal day={selectedDay} origin={genieOrigin} onClose={closeDayModal} />
+      )}
     </section>
   );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Belanosima, JetBrains_Mono, Monda } from "next/font/google";
+import { Cef2HtmlClass } from "@/components/cef2/Cef2HtmlClass";
 import { site } from "@/lib/site";
 import "./cef2.css";
 
@@ -48,6 +49,7 @@ export default function Cef2Layout({
     <div
       className={`cef2-root ${belanosima.variable} ${monda.variable} ${jetbrainsMono.variable}`}
     >
+      <Cef2HtmlClass />
       {children}
     </div>
   );

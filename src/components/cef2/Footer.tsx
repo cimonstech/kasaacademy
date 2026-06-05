@@ -1,4 +1,5 @@
 import { fellowship } from "@/lib/content";
+import { Countdown } from "@/components/cef2/Countdown";
 import { CefLogo } from "@/components/CefLogo";
 import { CalendarToday, LocationOn } from "@/components/icons";
 import { site } from "@/lib/site";
@@ -23,6 +24,12 @@ export function Footer() {
           </div>
 
           <div className="flex flex-col items-start gap-5 lg:items-end">
+            <Countdown
+              targetIso={fellowship.eventStartAt}
+              label="Fellowship begins"
+              endedText="In session"
+              className="cef2-countdown--footer"
+            />
             <div className="flex items-start gap-3">
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-container text-secondary-fixed">
                 <CalendarToday />
@@ -48,10 +55,21 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-4 border-t border-outline-variant/30 pt-8 text-sm text-on-surface-variant md:flex-row md:justify-between">
+        <div className="mt-12 flex flex-col gap-4 border-t border-outline-variant/30 pt-8 text-sm text-on-surface-variant md:flex-row md:flex-wrap md:items-center md:justify-between">
           <a href={`mailto:${fellowship.contact.email}`} className="hover:text-primary">
             {fellowship.contact.email}
           </a>
+          <p className="text-xs text-primary">
+            Built with precision by:{" "}
+            <a
+              href="https://thisismotivo.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-on-surface underline decoration-primary underline-offset-2 transition-opacity hover:opacity-80"
+            >
+              Motivo Limited
+            </a>
+          </p>
           <p className="text-xs opacity-60">
             © 2026 KASA Africa Academy of Creative Excellence
           </p>

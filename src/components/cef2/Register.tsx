@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import Image from "next/image";
 import { fellowship, goals } from "@/lib/content";
 import { sectionImages } from "@/lib/images";
+import { Countdown } from "@/components/cef2/Countdown";
 import { CardBrandMark } from "@/components/cef2/CardBrandMark";
 import { Chat, Verified } from "@/components/icons";
 import { gsap } from "@/lib/gsap-client";
@@ -62,7 +63,11 @@ export function Register() {
 
         <div className="register-pricing-grid mt-10 grid grid-cols-1 items-stretch gap-6 md:mt-12 md:grid-cols-2 lg:grid-cols-[1fr_1fr_minmax(0,22rem)]">
           <article className="register-pricing-card relative flex h-full flex-col overflow-hidden rounded-2xl bg-white p-8 shadow-lg transition-transform duration-300 ease-out hover:scale-[1.02] motion-reduce:hover:scale-100 md:p-10">
-            <CardBrandMark src={site.cefIcon} position="top-right" size="lg" opacity={0.1} />
+            <Countdown
+              targetIso={fellowship.pricing.earlyBird.deadlineAt}
+              label="Early bird ends"
+              className="cef2-countdown--card"
+            />
             <span className="relative z-10 text-xs font-bold tracking-widest text-secondary uppercase">
               Early Bird
             </span>
@@ -87,9 +92,6 @@ export function Register() {
               >
                 Pay with Paystack
               </button>
-              <p className="mt-2 text-center text-xs text-on-surface-variant/80">
-                Valid until {fellowship.pricing.earlyBird.deadline}
-              </p>
             </div>
           </article>
 
