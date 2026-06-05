@@ -31,7 +31,7 @@ const eventSchema = {
     {
       "@type": "Offer",
       name: "Early Bird",
-      price: "1500",
+      price: "500",
       priceCurrency: "GHS",
       availability: "https://schema.org/InStock",
       validThrough: "2026-06-20",

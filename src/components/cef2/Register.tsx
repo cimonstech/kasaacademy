@@ -19,16 +19,31 @@ export function Register() {
     () => {
       if (!gsapReady) return;
 
-      gsap.from(".register-block", {
-        y: 50,
+      gsap.from(".register-reveal", {
+        y: 40,
+        opacity: 0,
+        duration: 0.7,
+        stagger: 0.1,
+        ease: "power3.out",
+        clearProps: "transform,opacity",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 78%",
+          toggleActions: "play none none none",
+        },
+      });
+
+      gsap.from(".register-pricing-grid > *", {
+        y: 40,
         opacity: 0,
         duration: 0.7,
         stagger: 0.12,
         ease: "power3.out",
+        clearProps: "transform,opacity",
         scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 78%",
-          toggleActions: "play none none reverse",
+          trigger: ".register-pricing-grid",
+          start: "top 85%",
+          toggleActions: "play none none none",
         },
       });
     },
@@ -38,15 +53,15 @@ export function Register() {
   return (
     <section ref={sectionRef} id="register" className="cef2-bleed-gold relative overflow-hidden py-stack-xl">
       <div className="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
-        <h2 className="cef2-manifesto-line register-block text-[clamp(2.5rem,6vw,4.5rem)] text-on-secondary-fixed">
+        <h2 className="cef2-manifesto-line register-reveal text-[clamp(2.5rem,6vw,4.5rem)] text-on-secondary-fixed">
           Claim your seat
         </h2>
-        <p className="register-block mt-4 max-w-xl text-on-secondary-fixed-variant">
+        <p className="register-reveal mt-4 max-w-xl text-on-secondary-fixed-variant">
           Two paths into the fellowship. Same five-day transformation.
         </p>
 
-        <div className="register-block mt-10 grid grid-cols-1 items-stretch gap-6 md:mt-12 md:grid-cols-2 lg:grid-cols-[1fr_1fr_minmax(0,22rem)]">
-          <article className="register-block register-pricing-card relative flex h-full flex-col overflow-hidden rounded-2xl bg-white p-8 shadow-lg transition-transform duration-300 ease-out hover:scale-[1.02] motion-reduce:hover:scale-100 md:p-10">
+        <div className="register-pricing-grid mt-10 grid grid-cols-1 items-stretch gap-6 md:mt-12 md:grid-cols-2 lg:grid-cols-[1fr_1fr_minmax(0,22rem)]">
+          <article className="register-pricing-card relative flex h-full flex-col overflow-hidden rounded-2xl bg-white p-8 shadow-lg transition-transform duration-300 ease-out hover:scale-[1.02] motion-reduce:hover:scale-100 md:p-10">
             <CardBrandMark src={site.cefIcon} position="top-right" size="lg" opacity={0.1} />
             <span className="relative z-10 text-xs font-bold tracking-widest text-secondary uppercase">
               Early Bird
@@ -65,15 +80,20 @@ export function Register() {
                 </li>
               ))}
             </ul>
-            <button
-              type="button"
-              className="relative z-10 mt-auto w-full rounded-lg bg-primary px-4 py-3 text-sm font-bold tracking-wide text-on-primary transition-colors hover:bg-primary/90"
-            >
-              Pay with Paystack
-            </button>
+            <div className="relative z-10 mt-auto">
+              <button
+                type="button"
+                className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-bold tracking-wide text-on-primary transition-colors hover:bg-primary/90"
+              >
+                Pay with Paystack
+              </button>
+              <p className="mt-2 text-center text-xs text-on-surface-variant/80">
+                Valid until {fellowship.pricing.earlyBird.deadline}
+              </p>
+            </div>
           </article>
 
-          <article className="register-block register-pricing-card relative flex h-full flex-col overflow-hidden rounded-2xl bg-primary p-8 text-on-primary transition-transform duration-300 ease-out hover:scale-[1.02] motion-reduce:hover:scale-100 md:p-10">
+          <article className="register-pricing-card relative flex h-full flex-col overflow-hidden rounded-2xl bg-primary p-8 text-on-primary transition-transform duration-300 ease-out hover:scale-[1.02] motion-reduce:hover:scale-100 md:p-10">
             <CardBrandMark src={site.cefWeb} position="center" size="lg" opacity={0.14} />
             <span className="relative z-10 text-xs font-bold tracking-widest text-on-primary/70 uppercase">
               Regular
@@ -98,12 +118,12 @@ export function Register() {
             </button>
           </article>
 
-          <div className="register-block relative aspect-[4/3] min-h-[14rem] overflow-hidden rounded-2xl md:col-span-2 md:aspect-[21/9] lg:col-span-1 lg:aspect-auto lg:min-h-0 lg:h-full">
+          <div className="register-image-col relative min-h-[14rem] overflow-hidden rounded-2xl md:col-span-2 md:min-h-[12rem] lg:col-span-1 lg:min-h-0 lg:h-full">
             <Image
               src={sectionImages.register}
               alt="Creative at work in studio"
               fill
-              className="object-cover"
+              className="object-cover object-center"
               sizes="(max-width: 1024px) 100vw, 22rem"
             />
             <div className="cef2-scrim-gold absolute inset-0" aria-hidden="true" />
@@ -120,7 +140,7 @@ export function Register() {
           </div>
         </div>
 
-        <div className="register-block mt-16 border-t border-on-secondary-fixed/20 pt-12">
+        <div className="register-reveal mt-16 border-t border-on-secondary-fixed/20 pt-12">
           <p className="text-sm font-bold tracking-widest text-on-secondary-fixed uppercase">
             Fellows leave with
           </p>
@@ -136,7 +156,7 @@ export function Register() {
           </ul>
         </div>
 
-        <p className="register-block mt-10 flex items-center justify-center gap-2 text-sm text-on-secondary-fixed-variant">
+        <p className="register-reveal mt-10 flex items-center justify-center gap-2 text-sm text-on-secondary-fixed-variant">
           <Chat />
           <a
             href={fellowship.contact.whatsapp}

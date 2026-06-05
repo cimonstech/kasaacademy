@@ -8,6 +8,7 @@ import { JourneyScroll } from "@/components/cef2/JourneyScroll";
 import { Speakers } from "@/components/cef2/Speakers";
 import { Register } from "@/components/cef2/Register";
 import { Footer } from "@/components/cef2/Footer";
+import { ScrollToTop } from "@/components/cef2/ScrollToTop";
 import { ScrollTrigger } from "@/lib/gsap-client";
 import { useGsapReady } from "@/hooks/useGsapReady";
 
@@ -33,6 +34,7 @@ export function Cef2Landing() {
         <Register />
       </main>
       <Footer />
+      <ScrollToTop />
     </>
   );
 }

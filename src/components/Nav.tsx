@@ -34,7 +34,7 @@ export function Nav() {
   return (
     <header ref={navRef} className="border-b-2 border-primary bg-background">
       <div className="masthead-line border-b border-outline-variant/40 py-2 text-center">
-        <p className="text-xs font-bold tracking-[0.25em] text-on-surface-variant uppercase">
+        <p className="text-[0.525rem] font-bold tracking-[0.2em] text-on-surface-variant uppercase">
           {fellowship.dates} · {fellowship.venue}
         </p>
       </div>
@@ -43,7 +43,7 @@ export function Nav() {
         <a href={site.cefPath} className="inline-block focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-secondary">
           <CefLogo priority />
         </a>
-        <p className="mt-4 text-xs text-on-surface-variant">
+        <p className="mt-4 max-w-xs text-center text-xs text-on-surface-variant md:max-w-none">
           A program of KASA Africa Academy of Creative Excellence
         </p>
       </div>

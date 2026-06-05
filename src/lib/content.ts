@@ -10,7 +10,7 @@ export const fellowship = {
     whatsappLabel: "0546 663 929",
   },
   pricing: {
-    earlyBird: { amount: "1,500", currency: "GHC", deadline: "30th April 2026" },
+    earlyBird: { amount: "500", currency: "GHC", deadline: "15th June 2026" },
     regular: { amount: "2,000", currency: "GHC" },
   },
 };

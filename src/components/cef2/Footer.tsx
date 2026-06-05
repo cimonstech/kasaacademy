@@ -22,7 +22,7 @@ export function Footer() {
             </p>
           </div>
 
-          <div className="ml-auto flex flex-col gap-5 lg:ml-0 lg:items-end">
+          <div className="flex flex-col items-start gap-5 lg:items-end">
             <div className="flex items-start gap-3">
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-container text-secondary-fixed">
                 <CalendarToday />
