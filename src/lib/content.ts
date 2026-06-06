@@ -9,6 +9,8 @@ export const fellowship = {
     email: "contact@thekasaacademy.com",
     whatsapp: "https://wa.me/233546663929",
     whatsappLabel: "0546 663 929",
+    instagram: "https://instagram.com/kasa.creativeacademy",
+    instagramLabel: "kasa.creativeacademy",
   },
   pricing: {
     earlyBird: {

@@ -86,6 +86,35 @@ html.cef2-page::-webkit-scrollbar-thumb {
   -webkit-overflow-scrolling: touch;
 }
 
+.cef2-faculty-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid rgb(201 146 26 / 0.45);
+  border-radius: 50%;
+  background: var(--color-secondary-fixed-dim);
+  color: var(--color-on-secondary-fixed);
+  box-shadow: 0 2px 0 rgb(201 146 26 / 0.35);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+.cef2-faculty-nav-btn:hover {
+  background: var(--color-secondary-fixed);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 0 rgb(201 146 26 / 0.4);
+}
+
+.cef2-faculty-nav-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 0 0 rgb(201 146 26 / 0.35);
+}
+
 .cef2-faculty-carousel {
   overflow: hidden;
 }
@@ -1014,9 +1043,16 @@ html.cef2-page::-webkit-scrollbar-thumb {
 }
 
 .cef2-countdown--footer {
+  display: none;
   width: 100%;
   max-width: 14rem;
   align-items: flex-start;
+}
+
+@media (min-width: 768px) {
+  .cef2-countdown--footer {
+    display: flex;
+  }
 }
 
 .cef2-countdown--footer .cef2-countdown-label {

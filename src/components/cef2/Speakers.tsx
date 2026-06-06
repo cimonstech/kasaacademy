@@ -89,8 +89,46 @@ function FacultyCard({
 const AUTO_INTERVAL_MS = 3500;
 const MOBILE_QUERY = "(max-width: 767px)";
 
+function FacultyNavArrow({
+  direction,
+  onClick,
+}: {
+  direction: "prev" | "next";
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      className="cef2-faculty-nav-btn"
+      onClick={onClick}
+      aria-label={direction === "prev" ? "Previous faculty member" : "Next faculty member"}
+    >
+      <svg width="14" height="14" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        {direction === "prev" ? (
+          <path
+            d="M11.25 3.75L5.25 9l6 5.25"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        ) : (
+          <path
+            d="M6.75 3.75L12.75 9l-6 5.25"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        )}
+      </svg>
+    </button>
+  );
+}
+
 export function Speakers() {
   const sectionRef = useRef<HTMLElement>(null);
+  const shellRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const gsapReady = useGsapReady();
   const indexRef = useRef(0);
@@ -139,6 +177,78 @@ export function Speakers() {
     if (hoverCountRef.current === 0) setIsPaused(false);
   }, []);
 
+  const getStep = useCallback(() => {
+    const track = trackRef.current;
+    if (!track) return 0;
+    const first = track.children[0] as HTMLElement | undefined;
+    if (!first) return 0;
+    const gap = Number.parseFloat(getComputedStyle(track).gap) || 24;
+    return first.offsetWidth + gap;
+  }, []);
+
+  const resumeAuto = useCallback(() => {
+    window.setTimeout(() => {
+      if (hoverCountRef.current === 0 && !selectedSlug) {
+        setIsPaused(false);
+      }
+    }, AUTO_INTERVAL_MS);
+  }, [selectedSlug]);
+
+  const shiftFaculty = useCallback(
+    (direction: "prev" | "next") => {
+      setIsPaused(true);
+
+      if (isMobile && shellRef.current) {
+        const step = getStep();
+        shellRef.current.scrollBy({
+          left: direction === "next" ? step : -step,
+          behavior: "smooth",
+        });
+        resumeAuto();
+        return;
+      }
+
+      const track = trackRef.current;
+      if (!track) return;
+
+      const step = getStep();
+      if (step === 0) return;
+
+      if (direction === "next") {
+        indexRef.current += 1;
+        gsap.to(track, {
+          x: -indexRef.current * step,
+          duration: 0.75,
+          ease: "power2.inOut",
+          onComplete: () => {
+            if (indexRef.current >= allFaculty.length) {
+              indexRef.current = 0;
+              gsap.set(track, { x: 0 });
+            }
+            resumeAuto();
+          },
+        });
+        return;
+      }
+
+      if (indexRef.current <= 0) {
+        indexRef.current = allFaculty.length - 1;
+        gsap.set(track, { x: -indexRef.current * step });
+        resumeAuto();
+        return;
+      }
+
+      indexRef.current -= 1;
+      gsap.to(track, {
+        x: -indexRef.current * step,
+        duration: 0.75,
+        ease: "power2.inOut",
+        onComplete: resumeAuto,
+      });
+    },
+    [allFaculty.length, getStep, isMobile, resumeAuto],
+  );
+
   useEffect(() => {
     const mediaQuery = window.matchMedia(MOBILE_QUERY);
     const update = () => setIsMobile(mediaQuery.matches);
@@ -173,18 +283,34 @@ export function Speakers() {
   );
 
   useEffect(() => {
-    if (!gsapReady || !trackRef.current || isMobile) return;
+    if (!gsapReady || isPaused || selectedSlug) return;
 
-    const track = trackRef.current;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reducedMotion) return;
 
-    const getStep = () => {
-      const first = track.children[0] as HTMLElement | undefined;
-      if (!first) return 0;
-      const gap = Number.parseFloat(getComputedStyle(track).gap) || 24;
-      return first.offsetWidth + gap;
-    };
+    if (isMobile) {
+      const shell = shellRef.current;
+      if (!shell) return;
+
+      const advanceMobile = () => {
+        const step = getStep();
+        if (step === 0) return;
+
+        const maxScroll = shell.scrollWidth - shell.clientWidth;
+        if (shell.scrollLeft >= maxScroll - 4) {
+          shell.scrollTo({ left: 0, behavior: "smooth" });
+          return;
+        }
+
+        shell.scrollBy({ left: step, behavior: "smooth" });
+      };
+
+      const interval = window.setInterval(advanceMobile, AUTO_INTERVAL_MS);
+      return () => window.clearInterval(interval);
+    }
+
+    const track = trackRef.current;
+    if (!track) return;
 
     const advance = () => {
       indexRef.current += 1;
@@ -203,11 +329,38 @@ export function Speakers() {
       });
     };
 
-    if (isPaused || selectedSlug) return;
-
     const interval = window.setInterval(advance, AUTO_INTERVAL_MS);
     return () => window.clearInterval(interval);
-  }, [gsapReady, isMobile, isPaused, selectedSlug, allFaculty.length]);
+  }, [gsapReady, isMobile, isPaused, selectedSlug, allFaculty.length, getStep]);
+
+  useEffect(() => {
+    const shell = shellRef.current;
+    if (!shell || !isMobile) return;
+
+    let touchCount = 0;
+
+    const onTouchStart = () => {
+      touchCount += 1;
+      setIsPaused(true);
+    };
+
+    const onTouchEnd = () => {
+      touchCount = Math.max(0, touchCount - 1);
+      if (touchCount === 0 && !selectedSlug) {
+        setIsPaused(false);
+      }
+    };
+
+    shell.addEventListener("touchstart", onTouchStart, { passive: true });
+    shell.addEventListener("touchend", onTouchEnd, { passive: true });
+    shell.addEventListener("touchcancel", onTouchEnd, { passive: true });
+
+    return () => {
+      shell.removeEventListener("touchstart", onTouchStart);
+      shell.removeEventListener("touchend", onTouchEnd);
+      shell.removeEventListener("touchcancel", onTouchEnd);
+    };
+  }, [isMobile, selectedSlug]);
 
   const carouselMembers = isMobile ? allFaculty : loopFaculty;
 
@@ -218,16 +371,23 @@ export function Speakers() {
       className="cef2-bleed-cream py-stack-xl"
     >
       <div className="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
-        <header className="mb-12 text-center md:mb-14">
-          <h2 className="cef2-manifesto-line text-[clamp(2.25rem,5vw,3.25rem)] text-primary">
-            Fellowship Faculty
-          </h2>
-          <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-on-surface-variant md:text-base">
-            Learn from the architects of Ghana&apos;s creative industry
-          </p>
+        <header className="relative mb-12 md:mb-14">
+          <div className="text-center">
+            <h2 className="cef2-manifesto-line text-[clamp(2.25rem,5vw,3.25rem)] text-primary">
+              Fellowship Faculty
+            </h2>
+            <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-on-surface-variant md:text-base">
+              Learn from the architects of Ghana&apos;s creative industry
+            </p>
+          </div>
+          <div className="cef2-faculty-nav mt-6 hidden justify-center gap-3 md:absolute md:top-0 md:right-0 md:mt-2 md:flex">
+            <FacultyNavArrow direction="prev" onClick={() => shiftFaculty("prev")} />
+            <FacultyNavArrow direction="next" onClick={() => shiftFaculty("next")} />
+          </div>
         </header>
 
         <div
+          ref={shellRef}
           className={`faculty-carousel-shell cef2-faculty-carousel ${
             isMobile ? "cef2-faculty-carousel--scroll" : ""
           }`}

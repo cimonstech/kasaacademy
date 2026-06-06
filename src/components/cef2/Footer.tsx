@@ -1,7 +1,7 @@
 import { fellowship } from "@/lib/content";
 import { Countdown } from "@/components/cef2/Countdown";
 import { CefLogo } from "@/components/CefLogo";
-import { CalendarToday, LocationOn } from "@/components/icons";
+import { CalendarToday, Instagram, LocationOn } from "@/components/icons";
 import { site } from "@/lib/site";
 
 export function Footer() {
@@ -56,9 +56,20 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col gap-4 border-t border-outline-variant/30 pt-8 text-sm text-on-surface-variant md:flex-row md:flex-wrap md:items-center md:justify-between">
-          <a href={`mailto:${fellowship.contact.email}`} className="hover:text-primary">
-            {fellowship.contact.email}
-          </a>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
+            <a href={`mailto:${fellowship.contact.email}`} className="hover:text-primary">
+              {fellowship.contact.email}
+            </a>
+            <a
+              href={fellowship.contact.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 font-medium text-primary transition-colors hover:text-on-surface"
+            >
+              <Instagram className="text-secondary" />
+              Follow us
+            </a>
+          </div>
           <p className="text-xs text-primary">
             Built with precision by:{" "}
             <a

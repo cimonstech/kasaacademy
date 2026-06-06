@@ -88,7 +88,7 @@ export function Register() {
             <div className="relative z-10 mt-auto">
               <button
                 type="button"
-                className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-bold tracking-wide text-on-primary transition-colors hover:bg-primary/90"
+                className="w-full rounded-full bg-primary px-4 py-3 text-sm font-bold tracking-wide text-on-primary transition-colors hover:bg-primary/90"
               >
                 Pay with Paystack
               </button>
@@ -114,7 +114,7 @@ export function Register() {
             </ul>
             <button
               type="button"
-              className="relative z-10 mt-auto w-full rounded-lg bg-white px-4 py-3 text-sm font-bold tracking-wide text-primary transition-colors hover:bg-white/90"
+              className="relative z-10 mt-auto w-full rounded-full bg-white px-4 py-3 text-sm font-bold tracking-wide text-primary transition-colors hover:bg-white/90"
             >
               Pay with Paystack
             </button>
