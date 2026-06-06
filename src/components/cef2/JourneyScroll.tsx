@@ -120,7 +120,7 @@ export function JourneyScroll() {
         <h2 className="cef2-manifesto-line mt-2 text-3xl text-on-tertiary sm:text-4xl md:text-5xl">
           Five days. Five shifts.
         </h2>
-        <p className="mt-2 text-xs text-on-tertiary/60 md:hidden">Swipe to explore →</p>
+        <p className="mt-2 text-xs text-on-tertiary/60 md:hidden">Swipe to explore</p>
       </div>
 
       <div
@@ -176,7 +176,7 @@ export function JourneyScroll() {
             href="#register"
             className="relative z-10 mt-6 inline-block text-sm font-bold tracking-wide text-on-secondary-fixed underline decoration-primary decoration-2 underline-offset-4"
           >
-            Register now →
+            Register now
           </a>
         </article>
       </div>
