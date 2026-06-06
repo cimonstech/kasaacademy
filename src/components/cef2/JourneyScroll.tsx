@@ -143,15 +143,15 @@ export function JourneyScroll() {
                 {day.date}
               </span>
             </div>
-            <h3 className="cef2-manifesto-line relative z-10 mt-6 text-3xl text-on-tertiary">
-              {day.title}
+            <h3 className="cef2-manifesto-line relative z-10 mt-6 text-xl leading-tight text-on-tertiary sm:text-2xl">
+              {day.theme}
             </h3>
             <p className="relative z-10 mt-4 text-sm leading-relaxed text-on-tertiary/90">
               {day.description}
             </p>
             <div className="relative z-10 mt-8 h-1 w-12 bg-secondary-fixed" />
             <p className="relative z-10 mt-4 text-xs text-on-tertiary/70">
-              Phase {i + 1} of 5
+              Day {i + 1} of 5
             </p>
             <button
               type="button"

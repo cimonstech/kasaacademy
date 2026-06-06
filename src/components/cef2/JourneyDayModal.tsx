@@ -108,8 +108,6 @@ export function JourneyDayModal({ day, origin, onClose }: JourneyDayModalProps) 
   const backdropRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const closingRef = useRef(false);
-  const originRef = useRef(origin);
-  originRef.current = origin;
 
   const animateClose = useCallback(() => {
     if (closingRef.current || !panelRef.current || !backdropRef.current) return;
@@ -128,7 +126,7 @@ export function JourneyDayModal({ day, origin, onClose }: JourneyDayModalProps) 
       return;
     }
 
-    const { x, y } = originRef.current;
+    const { x, y } = origin;
 
     gsap.to(backdrop, { opacity: 0, duration: 0.35, ease: "power2.in" });
     gsap.to(panel, {
@@ -144,7 +142,7 @@ export function JourneyDayModal({ day, origin, onClose }: JourneyDayModalProps) 
       transformOrigin: "100% 100%",
       onComplete: onClose,
     });
-  }, [onClose]);
+  }, [onClose, origin]);
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
@@ -157,7 +155,7 @@ export function JourneyDayModal({ day, origin, onClose }: JourneyDayModalProps) 
     };
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const { x, y } = originRef.current;
+    const { x, y } = origin;
 
     gsap.set(backdrop, { opacity: 0 });
     gsap.set(panel, {
@@ -230,7 +228,7 @@ export function JourneyDayModal({ day, origin, onClose }: JourneyDayModalProps) 
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [animateClose]);
+  }, [animateClose, origin]);
 
   return createPortal(
     <div

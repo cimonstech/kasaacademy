@@ -84,7 +84,7 @@ export function Countdown({
   endedText = "Live now",
   className = "",
 }: CountdownProps) {
-  const [timeLeft, setTimeLeft] = useState(() => getTimeLeft(new Date(targetIso)));
+  const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
 
   useEffect(() => {
     const target = new Date(targetIso);
@@ -94,9 +94,14 @@ export function Countdown({
     return () => window.clearInterval(interval);
   }, [targetIso]);
 
-  const ariaLabel = timeLeft.total <= 0
-    ? endedText
-    : `${timeLeft.days} days, ${timeLeft.hours} hours, ${timeLeft.minutes} minutes, ${timeLeft.seconds} seconds remaining`;
+  const staticAriaLabel = label ? `${label} countdown` : "Countdown";
+
+  const ariaLabel =
+    timeLeft === null
+      ? staticAriaLabel
+      : timeLeft.total <= 0
+        ? endedText
+        : `${timeLeft.days} days, ${timeLeft.hours} hours, ${timeLeft.minutes} minutes, ${timeLeft.seconds} seconds remaining`;
 
   return (
     <div
@@ -106,7 +111,14 @@ export function Countdown({
       aria-label={ariaLabel}
     >
       {label && <span className="cef2-countdown-label">{label}</span>}
-      {timeLeft.total <= 0 ? (
+      {timeLeft === null ? (
+        <div className="cef2-countdown-units" aria-hidden="true">
+          <CountdownUnit value={0} suffix="d" />
+          <CountdownUnit value={0} suffix="h" />
+          <CountdownUnit value={0} suffix="m" />
+          <CountdownUnit value={0} suffix="s" rolling />
+        </div>
+      ) : timeLeft.total <= 0 ? (
         <span className="cef2-countdown-ended">{endedText}</span>
       ) : (
         <div className="cef2-countdown-units">
