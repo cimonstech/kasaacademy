@@ -16,8 +16,8 @@ export const fellowship = {
     earlyBird: {
       amount: "500",
       currency: "GHC",
-      deadline: "15th June 2026",
-      deadlineAt: "2026-06-15T23:59:59",
+      deadline: "12th June 2026",
+      deadlineAt: "2026-06-12T23:59:59",
     },
     regular: { amount: "2,000", currency: "GHC" },
   },
