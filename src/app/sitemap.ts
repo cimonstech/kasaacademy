@@ -9,7 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: "https://thekasaacademy.com/cef",
+      url: "https://thekasaacademy.com/cef2",
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.9,
