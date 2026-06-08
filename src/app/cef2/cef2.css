@@ -886,7 +886,7 @@ html.cef2-page::-webkit-scrollbar-thumb {
   }
 
   .register-pricing-grid .register-pricing-card,
-  .register-pricing-grid .register-image-col {
+  .register-pricing-grid .register-payment-card {
     height: 100%;
   }
 }

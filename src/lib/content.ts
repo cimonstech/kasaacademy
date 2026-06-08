@@ -20,6 +20,27 @@ export const fellowship = {
       deadlineAt: "2026-06-12T23:59:59",
     },
     regular: { amount: "2,000", currency: "GHC" },
+    includes: [
+      "5 day access",
+      "Work book",
+      "Site visit",
+      "Pitch session",
+      "Certificate",
+    ],
+  },
+  paymentOptions: {
+    bankTransfer: {
+      label: "Bank Transfer",
+      bank: "Stanbic Bank",
+      branch: "Accra Main Branch",
+      accountName: "Lawrencia Bazal Darko",
+      accountNumber: "9040006217979",
+    },
+    mobileMoney: {
+      label: "MTN Mobile Money",
+      name: "Lawrencia Bazal Darko",
+      number: "054 666 3929",
+    },
   },
 };
 
@@ -169,7 +190,7 @@ export const speakers = [
 
 export const convener = {
   name: "Bazal Darko Esq.",
-  role: "The Business of Creativity",
+  role: "Lawyer/Creative Entrepreneur",
   image: "/cef/speakers/convenor.webp",
   heroImage: "/cef/speakers/bazal-darko.jpg",
 };

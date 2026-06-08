@@ -29,12 +29,12 @@ export default function Home() {
 
       <div className="relative z-10 flex w-full max-w-lg flex-col items-center px-4">
         <Image
-          src="/cef/CEF_Logo_white.png"
-          alt="Africa Academy of Creative Excellence"
-          width={322}
-          height={115}
+          src="/cef/KASA_Logo.png"
+          alt="KASA Africa Academy of Creative Excellence"
+          width={200}
+          height={80}
           priority
-          className="mx-auto h-auto w-[min(280px,75vw)]"
+          className="mx-auto h-auto w-[min(200px,60vw)]"
         />
 
         <div className="mx-auto mt-10 h-px w-16 bg-secondary-fixed" aria-hidden="true" />

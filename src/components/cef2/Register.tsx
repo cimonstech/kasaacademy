@@ -2,9 +2,7 @@
 
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
-import Image from "next/image";
 import { fellowship, goals } from "@/lib/content";
-import { sectionImages } from "@/lib/images";
 import { Countdown } from "@/components/cef2/Countdown";
 import { CardBrandMark } from "@/components/cef2/CardBrandMark";
 import { Chat, Verified } from "@/components/icons";
@@ -78,21 +76,13 @@ export function Register() {
               GHC · until {fellowship.pricing.earlyBird.deadline}
             </p>
             <ul className="relative z-10 mt-8 space-y-3 text-sm">
-              {["5-day access", "Workbooks", "Studio visit", "Certificate"].map((f) => (
+              {fellowship.pricing.includes.map((f) => (
                 <li key={f} className="flex items-center gap-2 font-medium text-on-surface">
                   <Verified className="text-secondary" />
                   {f}
                 </li>
               ))}
             </ul>
-            <div className="relative z-10 mt-auto">
-              <button
-                type="button"
-                className="w-full rounded-full bg-primary px-4 py-3 text-sm font-bold tracking-wide text-on-primary transition-colors hover:bg-primary/90"
-              >
-                Pay with Paystack
-              </button>
-            </div>
           </article>
 
           <article className="register-pricing-card relative flex h-full flex-col overflow-hidden rounded-2xl bg-primary p-8 text-on-primary transition-transform duration-300 ease-out hover:scale-[1.02] motion-reduce:hover:scale-100 md:p-10">
@@ -105,41 +95,59 @@ export function Register() {
             </p>
             <p className="relative z-10 text-sm text-on-primary/70">GHC · standard enrollment</p>
             <ul className="relative z-10 mt-8 space-y-3 text-sm">
-              {["5-day access", "Workbooks", "Certificate", "Pitch session"].map((f) => (
+              {fellowship.pricing.includes.map((f) => (
                 <li key={f} className="flex items-center gap-2 font-medium text-on-primary/85">
                   <Verified className="text-secondary-fixed" />
                   {f}
                 </li>
               ))}
             </ul>
-            <button
-              type="button"
-              className="relative z-10 mt-auto w-full rounded-full bg-white px-4 py-3 text-sm font-bold tracking-wide text-primary transition-colors hover:bg-white/90"
-            >
-              Pay with Paystack
-            </button>
           </article>
 
-          <div className="register-image-col relative min-h-[14rem] overflow-hidden rounded-2xl md:col-span-2 md:min-h-[12rem] lg:col-span-1 lg:min-h-0 lg:h-full">
-            <Image
-              src={sectionImages.register}
-              alt="Creative at work in studio"
-              fill
-              className="object-cover object-center"
-              sizes="(max-width: 1024px) 100vw, 22rem"
-            />
-            <div className="cef2-scrim-gold absolute inset-0" aria-hidden="true" />
-            <div className="absolute bottom-5 left-5 z-10 w-20 drop-shadow-lg">
-              <Image
-                src={site.cefWeb}
-                alt=""
-                width={80}
-                height={80}
-                className="h-auto w-full"
-                aria-hidden
-              />
+          <article className="register-payment-card flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-lg md:col-span-2 lg:col-span-1">
+            <div className="bg-primary px-6 py-4 text-center">
+              <h3 className="text-sm font-bold tracking-widest text-on-primary uppercase">
+                Payment options
+              </h3>
             </div>
-          </div>
+
+            <div className="flex flex-1 flex-col gap-0 bg-[#1a1f3a] p-6 text-on-primary">
+              <div>
+                <p className="text-xs font-bold tracking-widest text-secondary-fixed uppercase">
+                  {fellowship.paymentOptions.bankTransfer.label}
+                </p>
+                <ul className="mt-4 space-y-2.5 text-sm text-on-primary/90">
+                  <li>{fellowship.paymentOptions.bankTransfer.bank}</li>
+                  <li>{fellowship.paymentOptions.bankTransfer.branch}</li>
+                  <li>{fellowship.paymentOptions.bankTransfer.accountName}</li>
+                  <li>
+                    Account no: {fellowship.paymentOptions.bankTransfer.accountNumber}
+                  </li>
+                </ul>
+              </div>
+
+              <div
+                className="my-5 flex items-center gap-3 text-xs font-bold tracking-widest text-on-primary/50 uppercase"
+                aria-hidden="true"
+              >
+                <span className="h-px flex-1 bg-on-primary/20" />
+                <span className="rounded-full border border-on-primary/25 px-3 py-1 text-on-primary/70">
+                  or
+                </span>
+                <span className="h-px flex-1 bg-on-primary/20" />
+              </div>
+
+              <div>
+                <p className="text-xs font-bold tracking-widest text-secondary-fixed uppercase">
+                  {fellowship.paymentOptions.mobileMoney.label}
+                </p>
+                <ul className="mt-4 space-y-2.5 text-sm text-on-primary/90">
+                  <li>{fellowship.paymentOptions.mobileMoney.name}</li>
+                  <li>{fellowship.paymentOptions.mobileMoney.number}</li>
+                </ul>
+              </div>
+            </div>
+          </article>
         </div>
 
         <div className="register-reveal mt-16 border-t border-on-secondary-fixed/20 pt-12">
